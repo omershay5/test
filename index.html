@@ -2,173 +2,278 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Omer Shay — Engineer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+  <title>Omer Shay — Portfolio</title>
   <style>
+    /* iOS system font stack — uses SF Pro on Apple devices, falls back gracefully */
     :root {
-      --bg: #0b1020;
-      --bg-soft: #111933;
-      --fg: #e6ebff;
-      --muted: #9aa3c7;
-      --accent: #6ea8fe;
-      --accent-2: #8b5cf6;
-      --card: #131c3a;
-      --border: #243056;
+      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+                   "Helvetica Neue", system-ui, "Segoe UI", Roboto, sans-serif;
+      --font-mono: ui-monospace, "SF Mono", Menlo, Monaco, "Cascadia Mono", monospace;
+
+      /* iOS light system colors */
+      --bg: #ffffff;
+      --bg-grouped: #f2f2f7;       /* systemGroupedBackground */
+      --surface: #ffffff;
+      --label: #000000;
+      --label-secondary: rgba(60, 60, 67, 0.6);   /* secondaryLabel */
+      --label-tertiary:  rgba(60, 60, 67, 0.3);
+      --separator: rgba(60, 60, 67, 0.12);
+      --fill: rgba(120, 120, 128, 0.12);          /* systemFill */
+      --tint: #007aff;                            /* systemBlue */
+      --tint-2: #5856d6;                          /* systemIndigo */
+      --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06);
     }
-    * { box-sizing: border-box; }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #000000;
+        --bg-grouped: #000000;
+        --surface: #1c1c1e;          /* secondarySystemBackground (dark) */
+        --label: #ffffff;
+        --label-secondary: rgba(235, 235, 245, 0.6);
+        --label-tertiary:  rgba(235, 235, 245, 0.3);
+        --separator: rgba(84, 84, 88, 0.65);
+        --fill: rgba(120, 120, 128, 0.24);
+        --tint: #0a84ff;
+        --tint-2: #5e5ce6;
+        --shadow: 0 1px 2px rgba(0,0,0,0.5), 0 8px 24px rgba(0,0,0,0.4);
+      }
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     html, body { margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: radial-gradient(1200px 600px at 80% -10%, rgba(139,92,246,0.18), transparent 60%),
-                  radial-gradient(900px 500px at -10% 20%, rgba(110,168,254,0.15), transparent 60%),
-                  var(--bg);
-      color: var(--fg);
-      line-height: 1.6;
+      font-family: var(--font-sans);
+      font-feature-settings: "kern", "liga", "ss01";
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: var(--bg-grouped);
+      color: var(--label);
+      line-height: 1.5;
+      letter-spacing: -0.01em;
       min-height: 100vh;
     }
-    a { color: var(--accent); text-decoration: none; }
+
+    a { color: var(--tint); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
+    /* Translucent navigation bar — iOS-style */
     header {
-      position: sticky; top: 0; z-index: 10;
-      backdrop-filter: blur(8px);
-      background: rgba(11,16,32,0.7);
-      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 20;
+      background: color-mix(in srgb, var(--bg) 72%, transparent);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 0.5px solid var(--separator);
     }
     .nav {
-      max-width: 980px; margin: 0 auto;
+      max-width: 880px; margin: 0 auto;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 24px;
+      padding: 12px 20px;
     }
-    .brand { font-weight: 700; letter-spacing: 0.3px; }
-    .nav ul { display: flex; gap: 18px; list-style: none; padding: 0; margin: 0; }
-    .nav a { color: var(--muted); font-size: 14px; }
-    .nav a:hover { color: var(--fg); text-decoration: none; }
+    .brand {
+      font-weight: 600; font-size: 17px; letter-spacing: -0.022em;
+    }
+    .nav ul { display: flex; gap: 22px; list-style: none; padding: 0; margin: 0; }
+    .nav a {
+      color: var(--label-secondary); font-size: 15px; font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+    .nav a:hover { color: var(--tint); text-decoration: none; }
+    @media (max-width: 520px) { .nav ul { display: none; } }
 
-    main { max-width: 980px; margin: 0 auto; padding: 64px 24px; }
+    main { max-width: 880px; margin: 0 auto; padding: 28px 20px 80px; }
 
-    .hero { display: grid; gap: 18px; padding: 40px 0 28px; }
-    .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: 2px; font-size: 12px; }
+    /* Hero — iOS Large Title */
+    .hero { padding: 56px 4px 36px; }
+    .eyebrow {
+      color: var(--tint); font-size: 13px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;
+    }
     .hero h1 {
-      font-size: clamp(36px, 6vw, 56px);
-      line-height: 1.1; margin: 0;
-      background: linear-gradient(90deg, var(--fg), var(--accent));
-      -webkit-background-clip: text; background-clip: text; color: transparent;
+      font-size: clamp(40px, 7vw, 64px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin: 0 0 14px;
     }
-    .hero p { color: var(--muted); font-size: 18px; max-width: 64ch; margin: 0; }
-    .cta { display: flex; gap: 12px; margin-top: 8px; flex-wrap: wrap; }
+    .hero .lede {
+      font-size: 19px; line-height: 1.45; max-width: 56ch;
+      color: var(--label-secondary);
+      margin: 0 0 22px;
+      letter-spacing: -0.012em;
+    }
+    .cta { display: flex; gap: 10px; flex-wrap: wrap; }
     .btn {
-      display: inline-block; padding: 10px 16px; border-radius: 10px;
-      border: 1px solid var(--border); color: var(--fg); font-size: 14px;
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 11px 18px; border-radius: 980px;
+      font-size: 15px; font-weight: 600; letter-spacing: -0.01em;
+      background: var(--fill); color: var(--label);
+      border: none; cursor: pointer;
+      transition: transform 80ms ease, opacity 120ms ease;
     }
-    .btn.primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      border-color: transparent;
+    .btn.primary { background: var(--tint); color: #fff; }
+    .btn:hover { text-decoration: none; opacity: 0.92; }
+    .btn:active { transform: scale(0.97); }
+
+    /* Section headings — iOS Settings style */
+    section { margin-top: 44px; }
+    .section-title {
+      font-size: 22px; font-weight: 700; letter-spacing: -0.022em;
+      margin: 0 0 14px; padding-left: 4px;
     }
-    .btn:hover { text-decoration: none; transform: translateY(-1px); transition: transform 120ms ease; }
 
-    section { margin-top: 56px; }
-    section h2 { font-size: 22px; margin: 0 0 16px; }
+    /* iOS grouped list — inset card with separator rows */
+    .list {
+      background: var(--surface);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .list .row {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 16px;
+      padding: 14px 18px;
+      border-top: 0.5px solid var(--separator);
+      align-items: baseline;
+    }
+    .list .row:first-child { border-top: none; }
+    .list .row .when {
+      color: var(--label-secondary); font-size: 14px; font-variant-numeric: tabular-nums;
+    }
+    .list .row h4 {
+      margin: 0 0 2px; font-size: 16px; font-weight: 600; letter-spacing: -0.015em;
+    }
+    .list .row p {
+      margin: 0; color: var(--label-secondary); font-size: 15px;
+    }
+    @media (max-width: 560px) {
+      .list .row { grid-template-columns: 1fr; gap: 4px; }
+    }
 
-    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    /* Project cards — iOS widget feel */
+    .grid {
+      display: grid; gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
     .card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 18px;
+      background: var(--surface);
+      border-radius: 18px;
+      padding: 18px 18px 16px;
+      box-shadow: var(--shadow);
+      transition: transform 120ms ease;
     }
-    .card h3 { margin: 0 0 6px; font-size: 16px; }
-    .card p { margin: 0; color: var(--muted); font-size: 14px; }
+    .card:hover { transform: translateY(-2px); }
+    .card .icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: grid; place-items: center; margin-bottom: 12px;
+      background: linear-gradient(135deg, var(--tint), var(--tint-2));
+      color: #fff; font-weight: 700; font-size: 17px;
+    }
+    .card h3 {
+      margin: 0 0 4px; font-size: 17px; font-weight: 600; letter-spacing: -0.018em;
+    }
+    .card p {
+      margin: 0; color: var(--label-secondary); font-size: 14.5px; line-height: 1.45;
+    }
 
-    .skills { display: flex; flex-wrap: wrap; gap: 8px; }
+    /* Skill chips */
+    .skills { display: flex; flex-wrap: wrap; gap: 8px; padding-left: 4px; }
     .chip {
-      padding: 6px 10px; border-radius: 999px;
-      background: var(--bg-soft); border: 1px solid var(--border);
-      font-size: 13px; color: var(--muted);
+      padding: 7px 13px; border-radius: 980px;
+      background: var(--fill); color: var(--label);
+      font-size: 14px; font-weight: 500; letter-spacing: -0.005em;
     }
 
-    .timeline { display: grid; gap: 14px; }
-    .row {
-      display: grid; grid-template-columns: 140px 1fr; gap: 16px;
-      padding: 14px; border-radius: 12px;
-      background: var(--card); border: 1px solid var(--border);
+    /* Contact list */
+    .contact-list { padding: 4px 0; }
+    .contact-list .row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 18px;
+      border-top: 0.5px solid var(--separator);
     }
-    .row .when { color: var(--muted); font-size: 13px; }
-    .row h4 { margin: 0 0 4px; font-size: 15px; }
-    .row p { margin: 0; color: var(--muted); font-size: 14px; }
-    @media (max-width: 600px) {
-      .row { grid-template-columns: 1fr; }
-    }
+    .contact-list .row:first-child { border-top: none; }
+    .contact-list .label-text { font-size: 16px; font-weight: 500; }
+    .contact-list .value { color: var(--tint); font-size: 16px; }
+    .contact-list .value:hover { text-decoration: underline; }
 
     footer {
-      max-width: 980px; margin: 40px auto 60px; padding: 0 24px;
-      color: var(--muted); font-size: 13px; display: flex;
-      justify-content: space-between; flex-wrap: wrap; gap: 8px;
+      max-width: 880px; margin: 24px auto 36px; padding: 0 24px;
+      color: var(--label-tertiary); font-size: 13px; text-align: center;
+      letter-spacing: -0.005em;
+    }
+
+    /* Subtle entry animation */
+    @media (prefers-reduced-motion: no-preference) {
+      .hero, section { animation: rise 480ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+      section:nth-of-type(1) { animation-delay: 40ms; }
+      section:nth-of-type(2) { animation-delay: 80ms; }
+      section:nth-of-type(3) { animation-delay: 120ms; }
+      section:nth-of-type(4) { animation-delay: 160ms; }
+      @keyframes rise {
+        from { opacity: 0; transform: translateY(8px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="nav">
+    <nav class="nav" aria-label="Primary">
       <div class="brand">Omer Shay</div>
       <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
+        <li><a href="#work">Work</a></li>
         <li><a href="#experience">Experience</a></li>
+        <li><a href="#skills">Skills</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-    </div>
+    </nav>
   </header>
 
   <main>
-    <section class="hero" id="about">
-      <span class="eyebrow">Engineer · Builder · Problem solver</span>
-      <h1>Hi, I'm Omer Shay.</h1>
-      <p>
-        I build reliable software — from backend systems and data pipelines
-        to the small tools that make day-to-day work better. I care about
-        clean design, correct code, and shipping things that actually help.
+    <section class="hero">
+      <div class="eyebrow">Portfolio</div>
+      <h1>Omer Shay.<br/>Engineer who ships.</h1>
+      <p class="lede">
+        I design and build software end-to-end — from data systems and backend
+        services to the small interfaces that make them usable. I care about
+        clarity, correctness, and craft.
       </p>
       <div class="cta">
         <a class="btn primary" href="#contact">Get in touch</a>
-        <a class="btn" href="#projects">See projects</a>
+        <a class="btn" href="#work">View work</a>
       </div>
     </section>
 
-    <section id="skills">
-      <h2>What I work with</h2>
-      <div class="skills">
-        <span class="chip">Python</span>
-        <span class="chip">TypeScript</span>
-        <span class="chip">Node.js</span>
-        <span class="chip">SQL</span>
-        <span class="chip">AWS</span>
-        <span class="chip">Docker</span>
-        <span class="chip">React</span>
-        <span class="chip">CI/CD</span>
-        <span class="chip">Observability</span>
-      </div>
-    </section>
-
-    <section id="projects">
-      <h2>Selected projects</h2>
+    <section id="work">
+      <h2 class="section-title">Selected Work</h2>
       <div class="grid">
-        <div class="card">
-          <h3>Data pipeline modernization</h3>
-          <p>Rebuilt a legacy ETL into an event-driven pipeline, cutting end-to-end latency by 80%.</p>
-        </div>
-        <div class="card">
-          <h3>Internal dev tool</h3>
-          <p>Shipped a CLI used across the engineering org to standardize local environment setup.</p>
-        </div>
-        <div class="card">
-          <h3>Realtime dashboard</h3>
-          <p>Designed a low-latency monitoring dashboard with sub-second updates on streaming data.</p>
-        </div>
+        <article class="card">
+          <div class="icon">P</div>
+          <h3>Realtime data platform</h3>
+          <p>Designed an event-driven pipeline handling millions of records/day with sub-second freshness.</p>
+        </article>
+        <article class="card">
+          <div class="icon">D</div>
+          <h3>Developer tooling</h3>
+          <p>Shipped an internal CLI used across the engineering org to standardize local environments.</p>
+        </article>
+        <article class="card">
+          <div class="icon">M</div>
+          <h3>Monitoring dashboard</h3>
+          <p>Built a low-latency observability UI giving on-call teams a single pane of glass.</p>
+        </article>
       </div>
     </section>
 
     <section id="experience">
-      <h2>Experience</h2>
-      <div class="timeline">
+      <h2 class="section-title">Experience</h2>
+      <div class="list">
         <div class="row">
           <div class="when">2023 — Now</div>
           <div>
@@ -193,22 +298,42 @@
       </div>
     </section>
 
+    <section id="skills">
+      <h2 class="section-title">Skills</h2>
+      <div class="skills">
+        <span class="chip">Python</span>
+        <span class="chip">TypeScript</span>
+        <span class="chip">Node.js</span>
+        <span class="chip">SQL</span>
+        <span class="chip">AWS</span>
+        <span class="chip">Docker</span>
+        <span class="chip">React</span>
+        <span class="chip">CI/CD</span>
+        <span class="chip">Observability</span>
+      </div>
+    </section>
+
     <section id="contact">
-      <h2>Contact</h2>
-      <div class="card">
-        <p>
-          The best way to reach me is by email at
-          <a href="mailto:omer@example.com">omer@example.com</a>.
-          You can also find me on
-          <a href="#">GitHub</a> and <a href="#">LinkedIn</a>.
-        </p>
+      <h2 class="section-title">Contact</h2>
+      <div class="list contact-list">
+        <div class="row">
+          <span class="label-text">Email</span>
+          <a class="value" href="mailto:omer@example.com">omer@example.com</a>
+        </div>
+        <div class="row">
+          <span class="label-text">GitHub</span>
+          <a class="value" href="https://github.com/omershay5">@omershay5</a>
+        </div>
+        <div class="row">
+          <span class="label-text">LinkedIn</span>
+          <a class="value" href="#">linkedin.com/in/omer-shay</a>
+        </div>
       </div>
     </section>
   </main>
 
   <footer>
-    <span>© <span id="year"></span> Omer Shay</span>
-    <span>Built as a simple static page.</span>
+    © <span id="year"></span> Omer Shay
   </footer>
 
   <script>
